@@ -1,5 +1,13 @@
 fn main() {
     closure1();
+
+    let add = |x, y| x + y;
+    let add_res = closure2(add);
+    println!("add_res: {}", add_res);
+
+    let add_c = add_closure();
+    let add_res2 = add_c(100, 200);
+    println!("add_res2: {}", add_res2);
 }
 
 // closure：闭包（内联函数）
@@ -34,3 +42,16 @@ fn closure1() {
 // 1 引用：&T
 // 2 可变引用：&mut T
 // 3 通过值：T
+
+// 将闭包当成一个参数传递给函数
+fn closure2<C>(closure: C) -> i32
+    where
+        C: Fn(i32, i32) -> i32, // 注意这里是大写的 Fn
+{
+    return closure(1, 2);
+}
+
+// 将闭包作为函数的返回值
+fn add_closure() -> impl Fn(i32, i32) -> i32 {
+    return |x, y| x + y;
+}
